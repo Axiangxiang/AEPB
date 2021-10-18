@@ -1,30 +1,29 @@
 package com.example.AEPB.parkinglot;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
 
     @Test
     void should_park_success_and_return_parking_ticket_when_park_a_car_given_parking_lot_has_parked_cars_less_than_50() {
         ParkingLot parkingLot = new ParkingLot();
-        Car car = new Car("鄂A88888");
+        Car car = new Car();
 
         ParkingResult parkingResult = parkingLot.park(car);
 
         assertEquals("success", parkingResult.getStatus());
-        assertEquals(car.getPlateNumber(), parkingResult.getData().getBindedCarPlateNumber());
+        assertNotNull(parkingResult.getData());
     }
 
     @Test
     void should_park_fail_and_return_err_msg_when_park_a_car_given_parking_lot_has_parked_cars_is_50() {
         ParkingLot parkingLot = new ParkingLot();
         for (int i = 0; i < 50; i++) {
-            parkingLot.park(new Car("鄂B888" + i));
+            parkingLot.park(new Car());
         }
-        Car car = new Car("鄂A88888");
+        Car car = new Car();
 
         ParkingResult parkingResult = parkingLot.park(car);
 
@@ -49,20 +48,20 @@ public class ParkingLotTest {
     @Test
     void should_pick_success_when_pick_carA_given_park_ticket_of_carA_and_carA_had_parked_in_the_parking_lot() {
         ParkingLot parkingLot = new ParkingLot();
-        Car carA = new Car("鄂A88888");
-        parkingLot.park(new Car("鄂B77777"));
+        Car carA = new Car();
+        parkingLot.park(new Car());
         ParkingResult parkResult = parkingLot.park(carA);
 
         PickingResult pickingResult = parkingLot.pick(parkResult.getData());
 
         assertEquals("success", pickingResult.getStatus());
-        assertEquals(carA.getPlateNumber(), pickingResult.getData().getPlateNumber());
+        assertEquals(carA, pickingResult.getData());
     }
 
     @Test
     void should_pick_fail_and_return_err_msg_when_pick_carA_given_a_null_parking_ticket_and_carA_had_parked_in_the_parking_lot() {
         ParkingLot parkingLot = new ParkingLot();
-        Car carA = new Car("鄂A88888");
+        Car carA = new Car();
         parkingLot.park(carA);
 
         PickingResult pickingResult = parkingLot.pick(null);
@@ -73,23 +72,9 @@ public class ParkingLotTest {
     }
 
     @Test
-    void should_pick_fail_and_return_err_msg_when_pick_carA_given_a_wrong_park_ticket_and_carA_had_parked_in_the_parking_lot() {
-        ParkingLot parkingLot = new ParkingLot();
-        Car carA = new Car("鄂A88888");
-        parkingLot.park(carA);
-        ParkingTicket parkingTicket = new ParkingTicket(100);
-
-        PickingResult pickingResult = parkingLot.pick(parkingTicket);
-
-        assertEquals("fail", pickingResult.getStatus());
-        assertEquals("请拿停车票取车", pickingResult.getMessage());
-        assertNull(pickingResult.getData());
-    }
-
-    @Test
     void should_pick_fail_and_return_err_msg_when_pick_carA_given_park_ticket_of_car_A_and_carA_had_not_parked_in_the_parking_lot() {
         ParkingLot parkingLot = new ParkingLot();
-        Car carA = new Car("鄂A88888");
+        Car carA = new Car();
         ParkingResult parkResult = parkingLot.park(carA);
         ParkingTicket parkingTicket = parkResult.getData();
         parkingLot.pick(parkingTicket);
