@@ -15,7 +15,7 @@ public class ParkingLotTest {
         ParkingResult parkingResult = parkingLot.park(car);
 
         assertEquals("success", parkingResult.getStatus());
-        assertEquals(car.getPlateNumber(), ((ParkingTicket) parkingResult.getData()).getBindedCarPlateNumber());
+        assertEquals(car.getPlateNumber(), parkingResult.getData().getBindedCarPlateNumber());
     }
 
     @Test
@@ -53,10 +53,10 @@ public class ParkingLotTest {
         parkingLot.park(new Car("鄂B77777"));
         ParkingResult parkResult = parkingLot.park(carA);
 
-        ParkingResult parkingResult = parkingLot.pick((ParkingTicket) parkResult.getData());
+        PickingResult pickingResult = parkingLot.pick(parkResult.getData());
 
-        assertEquals("success", parkingResult.getStatus());
-        assertEquals(carA.getPlateNumber(), ((Car) parkingResult.getData()).getPlateNumber());
+        assertEquals("success", pickingResult.getStatus());
+        assertEquals(carA.getPlateNumber(), pickingResult.getData().getPlateNumber());
     }
 
     @Test
@@ -65,11 +65,11 @@ public class ParkingLotTest {
         Car carA = new Car("鄂A88888");
         parkingLot.park(carA);
 
-        ParkingResult parkingResult = parkingLot.pick(null);
+        PickingResult pickingResult = parkingLot.pick(null);
 
-        assertEquals("fail", parkingResult.getStatus());
-        assertEquals("请拿停车票取车", parkingResult.getMessage());
-        assertNull(parkingResult.getData());
+        assertEquals("fail", pickingResult.getStatus());
+        assertEquals("请拿停车票取车", pickingResult.getMessage());
+        assertNull(pickingResult.getData());
     }
 
     @Test
@@ -79,11 +79,11 @@ public class ParkingLotTest {
         parkingLot.park(carA);
         ParkingTicket parkingTicket = new ParkingTicket(100);
 
-        ParkingResult parkingResult = parkingLot.pick(parkingTicket);
+        PickingResult pickingResult = parkingLot.pick(parkingTicket);
 
-        assertEquals("fail", parkingResult.getStatus());
-        assertEquals("请拿停车票取车", parkingResult.getMessage());
-        assertNull(parkingResult.getData());
+        assertEquals("fail", pickingResult.getStatus());
+        assertEquals("请拿停车票取车", pickingResult.getMessage());
+        assertNull(pickingResult.getData());
     }
 
     @Test
@@ -91,13 +91,13 @@ public class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot();
         Car carA = new Car("鄂A88888");
         ParkingResult parkResult = parkingLot.park(carA);
-        ParkingTicket parkingTicket = (ParkingTicket) parkResult.getData();
+        ParkingTicket parkingTicket = parkResult.getData();
         parkingLot.pick(parkingTicket);
 
-        ParkingResult parkingResult = parkingLot.pick(parkingTicket);
+        PickingResult pickingResult = parkingLot.pick(parkingTicket);
 
-        assertEquals("fail", parkingResult.getStatus());
-        assertEquals("没有对应的车", parkingResult.getMessage());
-        assertNull(parkingResult.getData());
+        assertEquals("fail", pickingResult.getStatus());
+        assertEquals("没有对应的车", pickingResult.getMessage());
+        assertNull(pickingResult.getData());
     }
 }

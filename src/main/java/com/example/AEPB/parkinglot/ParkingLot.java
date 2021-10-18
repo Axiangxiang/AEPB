@@ -31,24 +31,25 @@ public class ParkingLot {
         return parkingResult;
     }
 
-    public ParkingResult pick(ParkingTicket parkingTicket) {
-        ParkingResult parkingResult = new ParkingResult();
-        if (!doPickCheck(parkingResult, parkingTicket)) {
-            return parkingResult;
+    public PickingResult pick(ParkingTicket parkingTicket) {
+        PickingResult pickingResult = new PickingResult();
+        if (!doPickCheck(pickingResult, parkingTicket)) {
+            return pickingResult;
         }
         List<Car> parkedCarList = this.parkedCars.stream()
                 .filter(item -> item.getPlateNumber().equals(parkingTicket.getBindedCarPlateNumber()))
                 .collect(Collectors.toList());
         if (CollectionUtils.isEmpty(parkedCarList)) {
-            parkingResult.setStatus("fail");
-            parkingResult.setMessage("没有对应的车");
-            return parkingResult;
+            pickingResult.setStatus("fail");
+            pickingResult.setMessage("没有对应的车");
+            return pickingResult;
         }
+        parkedCars.remove(parkedCarList.get(0));
         recycleParkingTickets(parkingTicket);
-        parkingResult.setStatus("success");
-        parkingResult.setMessage("取车成功");
-        parkingResult.setData(parkedCarList.get(0));
-        return parkingResult;
+        pickingResult.setStatus("success");
+        pickingResult.setMessage("取车成功");
+        pickingResult.setData(parkedCarList.get(0));
+        return pickingResult;
     }
 
     private boolean doParkCheck(ParkingResult parkingResult, Car car) {
@@ -65,18 +66,18 @@ public class ParkingLot {
         return true;
     }
 
-    private boolean doPickCheck(ParkingResult parkingResult, ParkingTicket parkingTicket) {
+    private boolean doPickCheck(PickingResult pickingResult, ParkingTicket parkingTicket) {
         if (parkingTicket == null) {
-            parkingResult.setStatus("fail");
-            parkingResult.setMessage("请拿停车票取车");
+            pickingResult.setStatus("fail");
+            pickingResult.setMessage("请拿停车票取车");
             return false;
         }
         List<ParkingTicket> correctParkingTickets = this.parkingTickets.stream()
                 .filter(item -> item.getUniqueNo() == parkingTicket.getUniqueNo())
                 .collect(Collectors.toList());
         if (CollectionUtils.isEmpty(correctParkingTickets)) {
-            parkingResult.setStatus("fail");
-            parkingResult.setMessage("请拿停车票取车");
+            pickingResult.setStatus("fail");
+            pickingResult.setMessage("请拿停车票取车");
             return false;
         }
         return true;
