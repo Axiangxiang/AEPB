@@ -74,4 +74,22 @@ public class ParkingBoyTest {
         assertNull(parkingResult.getData());
     }
 
+    @Test
+    void should_pick_success_when_parking_boy_pick_car_given_parking_boy_parked_the_car(){
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ParkingLot parkingLot = new ParkingLot();
+            parkingLots.add(parkingLot);
+        }
+
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        Car car = new Car();
+        ParkingResult parkingResult = parkingBoy.park(car);
+        PickingResult pickingResult = parkingBoy.pick(parkingResult.getData());
+
+        assertEquals("success", pickingResult.getStatus());
+        assertEquals(car, pickingResult.getData());
+
+    }
+
 }
