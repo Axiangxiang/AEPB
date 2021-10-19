@@ -1,13 +1,13 @@
 package com.example.AEPB.parkinglot;
 
 public class ParkingTicket {
-    public ParkingLot getParkingLot() {
-        return parkingLot;
+    public Integer getParkingLotNo() {
+        return parkingLotNo;
     }
 
-    private ParkingLot parkingLot;
+    private Integer parkingLotNo;
 
-    public ParkingTicket(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
+    public ParkingTicket(Integer parkingLotNo) {
+        this.parkingLotNo = parkingLotNo;
     }
 }

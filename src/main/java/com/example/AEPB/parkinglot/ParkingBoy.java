@@ -19,4 +19,9 @@ public class ParkingBoy {
         }
         return properParkingLot.park(car);
     }
+
+    public PickingResult pick(ParkingTicket parkingTicket) {
+        ParkingLot parkingLot = parkingLots.get(parkingTicket.getParkingLotNo());
+        return parkingLot.pick(parkingTicket);
+    }
 }

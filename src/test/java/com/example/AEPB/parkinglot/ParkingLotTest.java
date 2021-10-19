@@ -8,7 +8,7 @@ public class ParkingLotTest {
 
     @Test
     void should_park_success_and_return_parking_ticket_when_park_a_car_given_parking_lot_has_parked_cars_less_than_50() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car car = new Car();
 
         ParkingResult parkingResult = parkingLot.park(car);
@@ -19,7 +19,7 @@ public class ParkingLotTest {
 
     @Test
     void should_park_fail_and_return_err_msg_when_park_a_car_given_parking_lot_has_parked_cars_is_50() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         for (int i = 0; i < 50; i++) {
             parkingLot.park(new Car());
         }
@@ -34,7 +34,7 @@ public class ParkingLotTest {
 
     @Test
     void should_park_fail_and_return_err_msg_when_park_a_car_given_the_car_is_null_and_parking_lot_has_parked_cars_less_than_50() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
 
         Car car = null;
 
@@ -47,7 +47,7 @@ public class ParkingLotTest {
 
     @Test
     void should_pick_success_when_pick_carA_given_park_ticket_of_carA_and_carA_had_parked_in_the_parking_lot() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car carA = new Car();
         parkingLot.park(new Car());
         ParkingResult parkResult = parkingLot.park(carA);
@@ -60,7 +60,7 @@ public class ParkingLotTest {
 
     @Test
     void should_pick_fail_and_return_err_msg_when_pick_carA_given_a_null_parking_ticket_and_carA_had_parked_in_the_parking_lot() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car carA = new Car();
         parkingLot.park(carA);
 
@@ -73,7 +73,7 @@ public class ParkingLotTest {
 
     @Test
     void should_pick_fail_and_return_err_msg_when_pick_carA_given_park_ticket_of_car_A_and_carA_had_not_parked_in_the_parking_lot() {
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = new ParkingLot(1);
         Car carA = new Car();
         ParkingResult parkResult = parkingLot.park(carA);
         ParkingTicket parkingTicket = parkResult.getData();

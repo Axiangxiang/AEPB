@@ -9,16 +9,21 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ParkingLot {
+    private Integer parkingLotNo;
     private final Integer TOTAL_PARKING_SPACES = 50;
     private List<ParkingTicket> parkingTickets = new ArrayList<>();
     private Map<ParkingTicket, Car> parkedCars = new HashMap<>();
+
+    public ParkingLot(Integer parkingLotNo) {
+        this.parkingLotNo = parkingLotNo;
+    }
 
     public ParkingResult park(Car car) {
         ParkingResult parkingResult = new ParkingResult();
         if (!doParkCheck(parkingResult, car)) {
             return parkingResult;
         }
-        ParkingTicket parkingTicket = new ParkingTicket(this);
+        ParkingTicket parkingTicket = new ParkingTicket(this.parkingLotNo);
         parkedCars.put(parkingTicket, car);
         parkingResult.setStatus("success");
         parkingResult.setMessage("停车成功");
