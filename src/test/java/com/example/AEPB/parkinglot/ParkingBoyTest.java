@@ -58,4 +58,20 @@ public class ParkingBoyTest {
         assertNull(parkingResult.getData());
     }
 
+    @Test
+    void should_park_fail_and_return_err_msg_when_park_a_car_given_car_is_null_and_parking_lot_has_position() {
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ParkingLot parkingLot = new ParkingLot();
+            parkingLots.add(parkingLot);
+        }
+
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        ParkingResult parkingResult = parkingBoy.park(null);
+
+        assertEquals("fail", parkingResult.getStatus());
+        assertEquals("没有待停的车", parkingResult.getMessage());
+        assertNull(parkingResult.getData());
+    }
+
 }
