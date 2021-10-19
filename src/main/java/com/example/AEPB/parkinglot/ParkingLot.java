@@ -18,7 +18,7 @@ public class ParkingLot {
         if (!doParkCheck(parkingResult, car)) {
             return parkingResult;
         }
-        ParkingTicket parkingTicket = new ParkingTicket();
+        ParkingTicket parkingTicket = new ParkingTicket(this);
         parkedCars.put(parkingTicket, car);
         parkingResult.setStatus("success");
         parkingResult.setMessage("停车成功");
