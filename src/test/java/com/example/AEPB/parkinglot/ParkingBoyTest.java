@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingBoyTest {
 
@@ -38,8 +37,25 @@ public class ParkingBoyTest {
 
         assertEquals("success", parkingResult.getStatus());
         assertEquals(parkingLot2, parkingTicket.getParkingLot());
+    }
 
+    @Test
+    void should_park_fail_and_return_err_msg_when_park_a_car_given_all_parking_lot_has_parked_cars_50() {
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ParkingLot parkingLot = new ParkingLot();
+            for (int j = 0; j < 50; j++) {
+                parkingLot.park(new Car());
+            }
+            parkingLots.add(parkingLot);
+        }
 
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        ParkingResult parkingResult = parkingBoy.park(new Car());
+
+        assertEquals("fail", parkingResult.getStatus());
+        assertEquals("车位已满", parkingResult.getMessage());
+        assertNull(parkingResult.getData());
     }
 
 }
