@@ -92,6 +92,24 @@ public class ParkingBoyTest {
 
     }
 
+    @Test
+    void should_pick_success_when_pick_car_by_self_given_parking_boy_parked_the_car() {
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ParkingLot parkingLot = new ParkingLot(i);
+            parkingLots.add(parkingLot);
+        }
 
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        Car car = new Car();
+        ParkingResult parkingResult = parkingBoy.park(car);
+        ParkingTicket parkingTicket = parkingResult.getData();
+        Integer parkingLotNo = parkingTicket.getParkingLotNo();
+        ParkingLot parkingLot = parkingLots.get(parkingLotNo);
+        PickingResult pickingResult = parkingLot.pick(parkingTicket);
+
+        assertEquals("success", pickingResult.getStatus());
+        assertEquals(car, pickingResult.getData());
+    }
 
 }
