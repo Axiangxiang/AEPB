@@ -112,4 +112,22 @@ public class ParkingBoyTest {
         assertEquals(car, pickingResult.getData());
     }
 
+    @Test
+    void should_pick_fail_when_parking_boy_pick_car_given_parking_boy_parked_the_car_and_ticket_is_nul() {
+        ArrayList<ParkingLot> parkingLots = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ParkingLot parkingLot = new ParkingLot(i);
+            parkingLots.add(parkingLot);
+        }
+
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        Car car = new Car();
+        ParkingResult parkingResult = parkingBoy.park(car);
+        PickingResult pickingResult = parkingBoy.pick(null);
+
+        assertEquals("fail", pickingResult.getStatus());
+        assertNull(pickingResult.getData());
+        assertEquals("请拿停车票取车", pickingResult.getMessage());
+    }
+
 }

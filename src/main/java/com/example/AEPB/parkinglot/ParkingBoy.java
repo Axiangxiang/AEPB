@@ -21,7 +21,11 @@ public class ParkingBoy {
     }
 
     public PickingResult pick(ParkingTicket parkingTicket) {
+        if (parkingTicket == null) {
+            return new PickingResult("fail", "请拿停车票取车", null);
+        }
         ParkingLot parkingLot = parkingLots.get(parkingTicket.getParkingLotNo());
+
         return parkingLot.pick(parkingTicket);
     }
 }
