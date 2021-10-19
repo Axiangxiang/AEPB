@@ -20,4 +20,5 @@ public class ParkingBoyTest {
         assertEquals("success", parkingResult.getStatus());
         assertNotNull(parkingResult.getData());
     }
+
 }

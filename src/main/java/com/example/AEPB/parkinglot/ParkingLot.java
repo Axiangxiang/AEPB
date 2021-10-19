@@ -44,6 +44,10 @@ public class ParkingLot {
         return pickingResult;
     }
 
+    public boolean hasPosition() {
+        return this.parkedCars.size() < TOTAL_PARKING_SPACES;
+    }
+
     private boolean doParkCheck(ParkingResult parkingResult, Car car) {
         if (parkedCars.size() == TOTAL_PARKING_SPACES) {
             parkingResult.setStatus("fail");
