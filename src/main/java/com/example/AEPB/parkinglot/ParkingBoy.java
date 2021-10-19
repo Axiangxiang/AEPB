@@ -14,6 +14,9 @@ public class ParkingBoy {
 
     public ParkingResult park(Car car) {
         ParkingLot properParkingLot = getProperParkingLot();
+        if (properParkingLot == null) {
+            return new ParkingResult("fail", "车位已满", null);
+        }
         return properParkingLot.park(car);
     }
 }
