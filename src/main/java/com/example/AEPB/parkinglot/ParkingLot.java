@@ -1,78 +1,44 @@
 package com.example.AEPB.parkinglot;
 
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ParkingLot {
     private Integer parkingLotNo;
     private final Integer TOTAL_PARKING_SPACES = 50;
-    private List<ParkingTicket> parkingTickets = new ArrayList<>();
     private Map<ParkingTicket, Car> parkedCars = new HashMap<>();
 
     public ParkingLot(Integer parkingLotNo) {
         this.parkingLotNo = parkingLotNo;
     }
 
-    public ParkingResult park(Car car) {
-        ParkingResult parkingResult = new ParkingResult();
-        if (!doParkCheck(parkingResult, car)) {
-            return parkingResult;
+    public ParkingTicket park(Car car) throws ParkingLotException {
+        if (parkedCars.size() == TOTAL_PARKING_SPACES) {
+            throw new ParkingLotException("车位已满");
         }
+        if (car == null) {
+            throw new ParkingLotException("没有待停的车");
+        }
+        ParkingResult parkingResult = new ParkingResult();
         ParkingTicket parkingTicket = new ParkingTicket(this.parkingLotNo);
         parkedCars.put(parkingTicket, car);
-        parkingResult.setStatus("success");
-        parkingResult.setMessage("停车成功");
         parkingResult.setData(parkingTicket);
-        return parkingResult;
+        return parkingTicket;
     }
 
-    public PickingResult pick(ParkingTicket parkingTicket) {
-        PickingResult pickingResult = new PickingResult();
-        if (!doPickCheck(pickingResult, parkingTicket)) {
-            return pickingResult;
+    public Car pick(ParkingTicket parkingTicket) throws ParkingLotException {
+        if (parkingTicket == null) {
+            throw new ParkingLotException("请拿停车票取车");
         }
         Car car = parkedCars.get(parkingTicket);
         if (car == null) {
-            pickingResult.setStatus("fail");
-            pickingResult.setMessage("没有对应的车");
-            return pickingResult;
+            throw new ParkingLotException("没有对应的车");
         }
         parkedCars.remove(parkingTicket);
-        pickingResult.setStatus("success");
-        pickingResult.setMessage("取车成功");
-        pickingResult.setData(car);
-        return pickingResult;
+        return car;
     }
 
     public boolean hasPosition() {
         return this.parkedCars.size() < TOTAL_PARKING_SPACES;
-    }
-
-    private boolean doParkCheck(ParkingResult parkingResult, Car car) {
-        if (parkedCars.size() == TOTAL_PARKING_SPACES) {
-            parkingResult.setStatus("fail");
-            parkingResult.setMessage("车位已满");
-            return false;
-        }
-        if (car == null) {
-            parkingResult.setStatus("fail");
-            parkingResult.setMessage("没有待停的车");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean doPickCheck(PickingResult pickingResult, ParkingTicket parkingTicket) {
-        if (parkingTicket == null) {
-            pickingResult.setStatus("fail");
-            pickingResult.setMessage("请拿停车票取车");
-            return false;
-        }
-        return true;
     }
 }

@@ -12,20 +12,19 @@ public class ParkingBoy {
         return parkingLots.stream().filter(ParkingLot::hasPosition).findFirst().orElse(null);
     }
 
-    public ParkingResult park(Car car) {
+    public ParkingTicket park(Car car) throws ParkingLotException {
         ParkingLot properParkingLot = getProperParkingLot();
         if (properParkingLot == null) {
-            return new ParkingResult("fail", "车位已满", null);
+            throw new ParkingLotException("车位已满");
         }
         return properParkingLot.park(car);
     }
 
-    public PickingResult pick(ParkingTicket parkingTicket) {
+    public Car pick(ParkingTicket parkingTicket) throws ParkingLotException {
         if (parkingTicket == null) {
-            return new PickingResult("fail", "请拿停车票取车", null);
+            throw new ParkingLotException("请拿停车票取车");
         }
         ParkingLot parkingLot = parkingLots.get(parkingTicket.getParkingLotNo());
-
         return parkingLot.pick(parkingTicket);
     }
 }
