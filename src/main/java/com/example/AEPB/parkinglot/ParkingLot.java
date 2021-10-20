@@ -19,10 +19,8 @@ public class ParkingLot {
         if (car == null) {
             throw new ParkingLotException("没有待停的车");
         }
-        ParkingResult parkingResult = new ParkingResult();
         ParkingTicket parkingTicket = new ParkingTicket(this.parkingLotNo);
         parkedCars.put(parkingTicket, car);
-        parkingResult.setData(parkingTicket);
         return parkingTicket;
     }
 
