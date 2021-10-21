@@ -32,3 +32,52 @@ task7:
 given: 车子A未停入停车场
 when: 拿车子A的停车票来取车
 then: 取车失败并给出提示"没有对应的车"
+
+
+
+
+
+task1:
+given:停车场停车未满50
+when:smartboy停车
+then: 停车成功并给对应的停车票
+
+task2:
+given:2号停车场空位10个，其它停车场空位5个
+when:smartboy停车
+then: 停车成功并给对应的停车票，车停入2号停车场
+
+task3:
+given:车子A已停入停车场
+when:smartboy拿车子A的停车票取车
+then:取车成功并收回对应的停车票
+
+task4:
+given:smartboy已将车子A停入停车场
+when:parkingboy拿车子A的停车票取车
+then:取车成功并收回对应的停车票
+
+task5:
+given:parkingboy已将车子A停入停车场
+when:smartboy拿车子A的停车票取车
+then:取车成功并收回对应的停车票
+
+task6:
+given: 1-2号停车场均有空位10个，其它停车场均停满
+when: smartboy停车
+then: 停车成功并给对应的停车票，车停入1号停车场
+
+task7:
+given: smartboy已将车子A停入停车场
+when: smartboy不用车票取车
+then: 取车失败
+
+task8:
+given:smartboy已将车子A停入停车场
+when:本人拿车子A的停车票取车
+then:取车成功并收回对应的停车票
+
+task9：
+given: smartboy没有车
+when: smartboy停车
+then：停车失败

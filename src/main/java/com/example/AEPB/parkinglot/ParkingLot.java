@@ -36,7 +36,7 @@ public class ParkingLot {
         return car;
     }
 
-    public boolean hasPosition() {
-        return this.parkedCars.size() < TOTAL_PARKING_SPACES;
+    public int getPositions() {
+        return TOTAL_PARKING_SPACES - this.parkedCars.size();
     }
 }

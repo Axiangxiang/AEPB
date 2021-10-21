@@ -1,15 +1,20 @@
 package com.example.AEPB.parkinglot;
 
+import java.util.Comparator;
 import java.util.List;
 
-public class ParkingBoy {
+public class SmartBoy {
     private List<ParkingLot> parkingLots;
-    public ParkingBoy(List<ParkingLot> parkingLots) {
+    public SmartBoy(List<ParkingLot> parkingLots) {
         this.parkingLots= parkingLots;
     }
 
     private ParkingLot getProperParkingLot() {
-        return parkingLots.stream().filter(item -> item.getPositions() > 0).findFirst().orElse(null);
+        return parkingLots.stream()
+                .filter(item -> item.getPositions() > 0)
+                .sorted(Comparator.comparing(ParkingLot::getPositions).reversed())
+                .findFirst()
+                .orElse(null);
     }
 
     public ParkingTicket park(Car car) throws ParkingLotException {
