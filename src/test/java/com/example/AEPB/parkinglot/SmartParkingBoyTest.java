@@ -7,13 +7,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SmartBoyTest {
+class SmartParkingBoyTest {
 
     @Test
     void should_park_success_when_smart_boy_park_car_given_all_parkinglot_is_empty() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
-        ParkingTicket parkingTicket = smartBoy.park(new Car());
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
+        ParkingTicket parkingTicket = smartParkingBoy.park(new Car());
         assertNotNull(parkingTicket);
     }
 
@@ -27,8 +27,8 @@ class SmartBoyTest {
             }
             setParkingLotParkedCar(parkingLots.get(i),45);
         }
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
-        ParkingTicket parkingTicket = smartBoy.park(new Car());
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
+        ParkingTicket parkingTicket = smartParkingBoy.park(new Car());
 
         assertEquals(parkingLots.get(1), parkingLots.get(parkingTicket.getParkingLotNo()));
     }
@@ -41,8 +41,8 @@ class SmartBoyTest {
         for (int i=2; i<10; i++) {
             setParkingLotParkedCar(parkingLots.get(i),45);
         }
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
-        ParkingTicket parkingTicket = smartBoy.park(new Car());
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
+        ParkingTicket parkingTicket = smartParkingBoy.park(new Car());
 
         assertEquals(parkingLots.get(0), parkingLots.get(parkingTicket.getParkingLotNo()));
     }
@@ -56,27 +56,27 @@ class SmartBoyTest {
             parkingLots.add(parkingLot);
         }
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
-        assertThrows(ParkingLotException.class, () -> smartBoy.park(new Car()), "车位已满");
+        assertThrows(ParkingLotException.class, () -> smartParkingBoy.park(new Car()), "车位已满");
     }
 
     @Test
     void should_park_fail_and_return_err_msg_when_smart_boy_park_a_car_given_car_is_null_and_parking_lot_has_position() {
         List<ParkingLot> parkingLots = initParkingLots(10);
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
-        assertThrows(ParkingLotException.class, () -> smartBoy.park(null), "没有待停的车");
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
+        assertThrows(ParkingLotException.class, () -> smartParkingBoy.park(null), "没有待停的车");
     }
 
     @Test
     void should_pick_success_when_smart_boy_pick_car_given_smart_boy_parked_the_car() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
         Car car = new Car();
-        ParkingTicket parkingTicket = smartBoy.park(car);
-        Car pickedCar = smartBoy.pick(parkingTicket);
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
+        Car pickedCar = smartParkingBoy.pick(parkingTicket);
 
         assertEquals(car, pickedCar);
     }
@@ -85,9 +85,9 @@ class SmartBoyTest {
     void should_pick_success_when_pick_car_by_self_given_smart_boy_parked_the_car() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
         Car car = new Car();
-        ParkingTicket parkingTicket = smartBoy.park(car);
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
         Integer parkingLotNo = parkingTicket.getParkingLotNo();
         ParkingLot parkingLot = parkingLots.get(parkingLotNo);
         Car pickedCar = parkingLot.pick(parkingTicket);
@@ -99,10 +99,10 @@ class SmartBoyTest {
     void should_pick_success_when_parking_boy_pick_car_given_smart_boy_parked_the_car() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         Car car = new Car();
-        ParkingTicket parkingTicket = smartBoy.park(car);
+        ParkingTicket parkingTicket = smartParkingBoy.park(car);
         Integer parkingLotNo = parkingTicket.getParkingLotNo();
         ParkingLot parkingLot = parkingLots.get(parkingLotNo);
         Car pickedCar = parkingBoy.pick(parkingTicket);
@@ -114,13 +114,13 @@ class SmartBoyTest {
     void should_pick_success_when_smart_boy_pick_car_given_parking_boy_parked_the_car() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         Car car = new Car();
         ParkingTicket parkingTicket = parkingBoy.park(car);
         Integer parkingLotNo = parkingTicket.getParkingLotNo();
         ParkingLot parkingLot = parkingLots.get(parkingLotNo);
-        Car pickedCar = smartBoy.pick(parkingTicket);
+        Car pickedCar = smartParkingBoy.pick(parkingTicket);
 
         assertEquals(car, pickedCar);
     }
@@ -129,11 +129,11 @@ class SmartBoyTest {
     void should_pick_fail_when_smart_boy_pick_car_given_smart_boy_parked_the_car_and_ticket_is_nul() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
 
-        SmartBoy smartBoy = new SmartBoy(parkingLots);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
         Car car = new Car();
-        smartBoy.park(car);
+        smartParkingBoy.park(car);
 
-        assertThrows(ParkingLotException.class, () -> smartBoy.pick(null), "请拿停车票取车");
+        assertThrows(ParkingLotException.class, () -> smartParkingBoy.pick(null), "请拿停车票取车");
     }
 
     private List<ParkingLot> initParkingLots(int num) {

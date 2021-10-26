@@ -8,7 +8,7 @@ public class ParkingBoy {
         this.parkingLots= parkingLots;
     }
 
-    private ParkingLot getProperParkingLot() {
+    public ParkingLot getProperParkingLot() {
         return parkingLots.stream().filter(item -> item.getPositions() > 0).findFirst().orElse(null);
     }
 
@@ -26,5 +26,9 @@ public class ParkingBoy {
         }
         ParkingLot parkingLot = parkingLots.get(parkingTicket.getParkingLotNo());
         return parkingLot.pick(parkingTicket);
+    }
+
+    public List<ParkingLot> getParkingLots() {
+        return this.parkingLots;
     }
 }
