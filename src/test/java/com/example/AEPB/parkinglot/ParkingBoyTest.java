@@ -17,10 +17,10 @@ class ParkingBoyTest {
         assertNotNull(parkingTicket);
     }
 
-    private List<ParkingLot> initParkingLots(int num) {
+    private List<ParkingLot> initParkingLots(int num) throws ParkingLotException {
         List<ParkingLot> parkingLots = new ArrayList<>();
         for (int i = 0; i < num; i++) {
-            parkingLots.add(new ParkingLot(i));
+            parkingLots.add(new ParkingLot(i,50));
         }
         return parkingLots;
     }
@@ -29,7 +29,7 @@ class ParkingBoyTest {
     void should_park_success_when_parking_boy_park_car_given_parkinglot1_has_no_position_and_parkinglot2_has_position() throws ParkingLotException {
         List<ParkingLot> parkingLots = initParkingLots(10);
         ParkingLot parkingLot1 = parkingLots.get(0);
-        setParkingLotParkedCar(parkingLot1,50);
+        TestDataUtils.setParkingLotParkedCar(parkingLot1,50);
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         ParkingTicket parkingTicket = parkingBoy.park(new Car());
         ParkingLot parkingLot2 = parkingLots.get(1);
@@ -37,18 +37,13 @@ class ParkingBoyTest {
         assertEquals(parkingLot2, parkingLots.get(parkingTicket.getParkingLotNo()));
     }
 
-    private void setParkingLotParkedCar(ParkingLot parkingLot1, int num) throws ParkingLotException {
-        for (int i = 0; i < num; i++) {
-            parkingLot1.park(new Car());
-        }
-    }
 
     @Test
     void should_park_fail_and_return_err_msg_when_park_a_car_given_all_parking_lot_has_parked_cars_50() throws ParkingLotException {
         List<ParkingLot> parkingLots = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ParkingLot parkingLot = new ParkingLot(i);
-            setParkingLotParkedCar(parkingLot,50);
+            ParkingLot parkingLot = new ParkingLot(i,50);
+            TestDataUtils.setParkingLotParkedCar(parkingLot,50);
             parkingLots.add(parkingLot);
         }
 
@@ -58,8 +53,8 @@ class ParkingBoyTest {
     }
 
     @Test
-    void should_park_fail_and_return_err_msg_when_park_a_car_given_car_is_null_and_parking_lot_has_position() {
-        List<ParkingLot> parkingLots = initParkingLots(10);
+    void should_park_fail_and_return_err_msg_when_park_a_car_given_car_is_null_and_parking_lot_has_position() throws ParkingLotException {
+        List<ParkingLot> parkingLots = initParkingLots(10 );
 
         ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
         assertThrows(ParkingLotException.class, () -> parkingBoy.park(null), "没有待停的车");

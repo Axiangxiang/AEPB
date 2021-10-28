@@ -5,15 +5,22 @@ import java.util.Map;
 
 public class ParkingLot {
     private Integer parkingLotNo;
-    private final Integer TOTAL_PARKING_SPACES = 50;
+    private  Integer totalParkingSpace;
     private Map<ParkingTicket, Car> parkedCars = new HashMap<>();
 
-    public ParkingLot(Integer parkingLotNo) {
+    public ParkingLot(Integer parkingLotNo ,Integer totalParkingSpace) throws ParkingLotException {
+        if (totalParkingSpace<0 || totalParkingSpace>100000) {
+            throw new ParkingLotException("停车场构建失败");
+        }
         this.parkingLotNo = parkingLotNo;
+        this.totalParkingSpace = totalParkingSpace;
     }
 
+
+
+
     public ParkingTicket park(Car car) throws ParkingLotException {
-        if (parkedCars.size() == TOTAL_PARKING_SPACES) {
+        if (parkedCars.size() == totalParkingSpace) {
             throw new ParkingLotException("车位已满");
         }
         if (car == null) {
@@ -37,6 +44,11 @@ public class ParkingLot {
     }
 
     public int getPositions() {
-        return TOTAL_PARKING_SPACES - this.parkedCars.size();
+        return totalParkingSpace - this.parkedCars.size();
     }
+
+    public int getTotalSpaces() {
+        return this.totalParkingSpace;
+    }
+
 }

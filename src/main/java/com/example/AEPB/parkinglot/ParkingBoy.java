@@ -2,7 +2,7 @@ package com.example.AEPB.parkinglot;
 
 import java.util.List;
 
-public class ParkingBoy {
+public class ParkingBoy implements SimpleParkingBoy{
     private List<ParkingLot> parkingLots;
     public ParkingBoy(List<ParkingLot> parkingLots) {
         this.parkingLots= parkingLots;
@@ -11,7 +11,6 @@ public class ParkingBoy {
     public ParkingLot getProperParkingLot() {
         return parkingLots.stream().filter(item -> item.getPositions() > 0).findFirst().orElse(null);
     }
-
     public ParkingTicket park(Car car) throws ParkingLotException {
         ParkingLot properParkingLot = getProperParkingLot();
         if (properParkingLot == null) {
@@ -19,6 +18,8 @@ public class ParkingBoy {
         }
         return properParkingLot.park(car);
     }
+
+
 
     public Car pick(ParkingTicket parkingTicket) throws ParkingLotException {
         if (parkingTicket == null) {
